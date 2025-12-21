@@ -135,9 +135,9 @@ function collectRenderableBlocks(rootNode, maxContentHeight, maxContentWidth) {
  * @param {() => void} onClose Invoked to close the dialog (also after successful download).
  * @param {React.RefObject<HTMLElement>} contentRef Ref pointing to the dashboard root being exported.
  */
-function PDFDownloader({ onClose, contentRef }) {
-  const [previewContent, setPreviewContent] = useState("")
-  const [title, setTitle] = useState("PDF Title")
+function PDFDownloader({ onClose, contentRef, defaultTitle = "PDF Title", }) {
+  const [previewContent, setPreviewContent] = useState(defaultTitle)
+  const [title, setTitle] = useState("")
   const [scale, setScale] = useState(1);
   const [msg, setMsg] = useState("Loading...");
 

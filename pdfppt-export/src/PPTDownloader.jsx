@@ -28,12 +28,13 @@ import React, { useEffect, useRef, useState } from "react"
  */
 function PPTDownloader({
   onClose, contentRef,
+  defaultTitle = "PPT Title",
   imgSlideStart, imgSlideMiddle, imgSlideEnd,
   scaleFactor = 1.35, pptWidth = 13.333, pptHeight = 7.5,
   isStartEnd = true,
   groupGapY = 0
 }) {
-  const [title, setTitle] = useState("PPT Title");
+  const [title, setTitle] = useState(defaultTitle);
   const [previewContent, setPreviewContent] = useState("");
   const [previewScale, setPreviewScale] = useState(1);
   const [msg, setMsg] = useState("Loading...");
