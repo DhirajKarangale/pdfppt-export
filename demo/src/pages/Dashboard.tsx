@@ -11,7 +11,6 @@ import ChartBar from "../components/ChartBar"
 import InfoBox from "../components/InfoBox"
 import PdfDownloader from "./PdfDownloader"
 import PptDownloader from "./PptDownloader"
-import { PDFDownloader } from "../../../packages/pdf-ppt-export-react/src"
 
 function Dashboard() {
       const printRef = useRef(null)
@@ -56,11 +55,8 @@ function Dashboard() {
                         </div>
                   </div>
 
-                  {showPdfModal && <PDFDownloader
-                        // isOpen={showPdfModal}
-                        // onClose={() => setShowPdfModal(false)}
-                        // contentRef={printRef}
-                        defaultTitle="DK the title"
+                  {showPdfModal && <PdfDownloader
+                        isOpen={showPdfModal}
                         onClose={() => setShowPdfModal(false)}
                         contentRef={printRef}
                   />}
