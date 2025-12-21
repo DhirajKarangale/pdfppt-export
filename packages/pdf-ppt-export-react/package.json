@@ -1,0 +1,75 @@
+{
+  "name": "pdf-ppt-export-react",
+  "version": "0.0.1",
+  "description": "pdfppt-export is a lightweight React utility that lets you export any dashboard or UI section to a multi-page PDF or a fully structured PowerPoint (PPTX) using just a React ref. It supports real charts, panel-based slide layouts, branding backgrounds, and smart pagination—without requiring you to rewrite your components or chart logic. Ideal for analytics dashboards, reports, and internal tools.",
+  "license": "MIT",
+  "author": "DK",
+  "homepage": "https://github.com/DhirajKarangale/pdfppt-export",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DhirajKarangale/pdfppt-export"
+  },
+  "bugs": {
+    "url": "https://github.com/DhirajKarangale/pdfppt-export/issues"
+  },
+  "keywords": [
+    "react",
+    "react-component",
+    "react-modal",
+    "dashboard",
+    "analytics",
+    "reporting",
+    "export",
+    "pdf",
+    "pdf-export",
+    "pdf-generator",
+    "ppt",
+    "pptx",
+    "ppt-export",
+    "powerpoint",
+    "presentation",
+    "charts",
+    "graphs",
+    "data-visualization",
+    "dashboard-export",
+    "report-generator",
+    "ui-export"
+  ],
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "clean": "rimraf dist"
+  },
+  "peerDependencies": {
+    "react": ">=16.8",
+    "react-dom": ">=16.8"
+  },
+  "dependencies": {
+    "culori": "^4.0.1",
+    "html-to-image": "^1.11.11",
+    "jspdf": "^2.5.1",
+    "pptxgenjs": "^3.12.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "rimraf": "^6.1.2",
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3"
+  }
+}
