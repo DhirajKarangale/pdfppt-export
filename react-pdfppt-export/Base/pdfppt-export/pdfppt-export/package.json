@@ -1,0 +1,40 @@
+{
+  "name": "pdfppt-export",
+  "version": "1.0.0",
+  "description": "Reusable React components for exporting dashboards to PDF and PPT",
+  "main": "dist/pdfppt-export.umd.js",
+  "module": "dist/pdfppt-export.es.js",
+  "type": "module",
+  "style": "dist/pdfppt-export.css",
+  "exports": {
+    ".": {
+      "import": "./dist/pdfppt-export.es.js",
+      "require": "./dist/pdfppt-export.umd.js"
+    },
+    "./dist/pdfppt-export.css": "./dist/pdfppt-export.css"
+  },
+  "sideEffects": [
+    "*.css"
+  ],
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "vite build"
+  },
+  "peerDependencies": {
+    "axios": "^1.11.0",
+    "culori": "^4.0.2",
+    "html-to-image": "^1.11.13",
+    "jspdf": "^3.0.2",
+    "pptxgenjs": "^4.0.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.7.0",
+    "vite": "^7.1.12",
+    "vite-plugin-css-injected-by-js": "^3.5.2"
+  },
+  "license": "MIT"
+}
