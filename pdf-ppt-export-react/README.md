@@ -1,5 +1,4 @@
-<!-- Replace this image with your generated GitHub social preview -->
-![pdfppt-export – Export React dashboards to PDF & PPTX](https://raw.githubusercontent.com/your-username/your-repo/main/assets/social-preview.png)
+![pdfppt-export – Export React dashboards to PDF & PPTX](https://raw.githubusercontent.com/DhirajKarangale/pdfppt-export/main/Assets/Cover1.png)
 
 # pdfppt-export
 
@@ -15,10 +14,10 @@ Exports are generated directly from the **existing DOM** using a simple `ref` an
 
 ## 🧠 How the Library Works (Mental Model)
 
-1. You wrap your dashboard inside a container referenced by `contentRef`
+1. Wrap your dashboard inside a container referenced by `contentRef`
 2. On export, the DOM is **cloned** (original DOM is never mutated)
-3. Elements are processed based on CSS markers:
-   - Controls removed
+3. Elements are processed using CSS markers:
+   - UI controls removed
    - Charts converted
    - Panels detected
 4. Output is generated as **PDF** or **PPTX**
@@ -31,7 +30,7 @@ If it renders correctly in the browser, it can be exported.
 
 ### 📄 PDF Export (`PDFDownloader`)
 - A4 portrait pages
-- Smart block‑level slicing (elements never split)
+- Smart block‑level slicing (elements never split across pages)
 - Charts rasterized as images for reliability
 - Header (title + date) on first page only
 - Fallback to full snapshot if layout detection fails
@@ -42,7 +41,7 @@ If it renders correctly in the browser, it can be exported.
 - Text, shapes, borders recreated
 - Charts rebuilt as **editable PPT charts**
 - Up to **2 panels per slide**
-- Optional branded start / end slides
+- Optional branded start / middle / end slides
 
 ---
 
@@ -98,25 +97,85 @@ export default function DashboardPage() {
 
 ---
 
-## 🎨 CSS Classes (Very Important)
+## ⚙️ Component Props Reference
 
-### 1️⃣ `pdfppt-noprint`
-**Purpose:** Exclude UI from both PDF and PPT
+## 📄 PDFDownloader Props
 
-```html
-<div class="pdfppt-noprint">
-  buttons, filters, dropdowns, inputs
-</div>
+```tsx
+<PDFDownloader
+  contentRef={dashboardRef}
+  onClose={() => {}}
+  defaultTitle="Dashboard Report"
+/>
 ```
 
-- Removed from cloned DOM
-- Not visible in preview or export
-- Use for toolbars, controls, actions
+| Prop | Required | Type | Description |
+|----|----|----|----|
+| `contentRef` | ✅ | `React.RefObject<HTMLElement>` | Root dashboard container to export |
+| `onClose` | ✅ | `() => void` | Called on close or after download |
+| `defaultTitle` | ❌ | `string` | Initial title & PDF filename |
 
 ---
 
-### 2️⃣ `chart-snapshot`
-**Purpose:** Mark chart containers
+## 📊 PPTDownloader Props
+
+```tsx
+<PPTDownloader
+  contentRef={dashboardRef}
+  onClose={() => {}}
+  defaultTitle="Dashboard Deck"
+  imgSlideStart="/start.png"
+  imgSlideMiddle="/content.png"
+  imgSlideEnd="/end.png"
+  scaleFactor={1.35}
+  pptWidth={13.333}
+  pptHeight={7.5}
+  isStartEnd={true}
+  groupGapY={0}
+/>
+```
+
+### Core Props
+
+| Prop | Required | Default | Description |
+|----|----|----|----|
+| `contentRef` | ✅ | — | Root dashboard DOM |
+| `onClose` | ✅ | — | Close handler |
+| `defaultTitle` | ❌ | `"PPT Title"` | Initial title & filename |
+
+### Layout & Scaling
+
+| Prop | Default | Description |
+|----|----|----|
+| `scaleFactor` | `1.35` | Panel scaling factor |
+| `pptWidth` | `13.333` | Slide width (inches) |
+| `pptHeight` | `7.5` | Slide height (inches) |
+| `groupGapY` | `0` | Vertical gap between panels (inches) |
+
+### Branding & Slides
+
+| Prop | Default | Description |
+|----|----|----|
+| `isStartEnd` | `true` | Include start/end slides |
+| `imgSlideStart` | `undefined` | Start slide background |
+| `imgSlideMiddle` | `undefined` | Content slide background |
+| `imgSlideEnd` | `undefined` | End slide background |
+
+---
+
+## 🎨 CSS Classes (Very Important)
+
+### `pdfppt-noprint`
+Exclude UI from export.
+
+```html
+<div class="pdfppt-noprint">
+  buttons, filters, dropdowns
+</div>
+```
+
+### `chart-snapshot`
+Marks chart containers.
 
 ```html
 <div
@@ -125,27 +184,15 @@ export default function DashboardPage() {
 ></div>
 ```
 
-Behavior:
-- **PDF:** chart → PNG image
-- **PPT:** chart → native PowerPoint chart
-
-This class is mandatory for chart export.
-
----
-
-### 3️⃣ `ppt-group-root` (Optional)
-**Purpose:** Force panel detection in PPT
+### `ppt-group-root`
+Forces panel grouping in PPT.
 
 ```html
 <div class="ppt-group-root">
   <h3>Revenue</h3>
-  <div class="chart-snapshot" ...></div>
+  <div class="chart-snapshot"></div>
 </div>
 ```
-
-Use when:
-- Automatic grouping misses a container
-- You want explicit slide panels
 
 ---
 
@@ -153,14 +200,14 @@ Use when:
 
 ### Supported Chart Types
 
-| Type | `chartType` |
+| Type | chartType |
 |----|----|
-| Bar | `"bar"` |
-| Line | `"line"` |
-| Pie | `"pie"` |
-| Doughnut | `"doughnut"` |
-| Multi‑series Bar | `"multibar"` |
-| Multi‑series Line | `"multiline"` |
+| Bar | `bar` |
+| Line | `line` |
+| Pie | `pie` |
+| Doughnut | `doughnut` |
+| Multi‑bar | `multibar` |
+| Multi‑line | `multiline` |
 
 ---
 
@@ -173,33 +220,14 @@ Use when:
     "chartType": "bar",
     "labels": ["Jan","Feb","Mar"],
     "values": [120,90,150],
-    "colors": ["#2563EB","#60A5FA","#93C5FD"],
-    "showLegend": false
+    "colors": ["#2563EB","#60A5FA","#93C5FD"]
   }'
 ></div>
 ```
 
 ---
 
-### Multi‑Series Bar Chart
-
-```html
-<div
-  class="chart-snapshot"
-  data-chart='{
-    "chartType": "multibar",
-    "multilineData": [
-      { "name": "2023", "labels": ["Q1","Q2"], "values": [40,60] },
-      { "name": "2024", "labels": ["Q1","Q2"], "values": [55,80] }
-    ],
-    "barGrouping": "clustered"
-  }'
-></div>
-```
-
----
-
-### Multi‑Series Line Chart
+### Multi‑Series Chart Example
 
 ```html
 <div
@@ -216,49 +244,16 @@ Use when:
 
 ---
 
-### Chart Metadata Reference
-
-| Field | Description |
-|----|----|
-| `labels` | Category labels |
-| `values` | Numeric values |
-| `colors` | Chart colors |
-| `showLegend` | Show legend |
-| `legendColor` | Legend text color |
-| `lableColor` | Data label color |
-| `barGrouping` | clustered / stacked |
-| `barDir` | col / bar |
-| `valAxisTitle` | Y‑axis title |
-| `catAxisTitle` | X‑axis title |
-
-> ⚠️ `lableColor` spelling is intentional (matches implementation)
-
----
-
-## 🧱 Project Structure (Recommended)
+## 🧱 Recommended Project Structure
 
 ```txt
 src/
  ├─ components/
- │   ├─ Dashboard.tsx
- │   ├─ Charts/
- │   │   └─ RevenueChart.tsx
- │
+ ├─ charts/
  ├─ pages/
- │   └─ DashboardPage.tsx
- │
  ├─ export/
- │   ├─ PdfExport.tsx
- │   └─ PptExport.tsx
- │
  └─ App.tsx
 ```
-
-**Best practices**
-- Keep export buttons outside charts (`pdfppt-noprint`)
-- Wrap logical sections as panels
-- Keep charts inside `chart-snapshot` containers
-- Avoid deeply nested layouts
 
 ---
 
@@ -266,26 +261,17 @@ src/
 
 | Issue | Fix |
 |----|----|
-| Blank chart in PPT | Invalid JSON |
-| Layout overlap | Reduce `scaleFactor` |
-| Too many slides | Combine panels |
-| Controls visible | Missing `pdfppt-noprint` |
-| Chart not editable | Missing `data-chart` |
+| Blank chart | Invalid JSON |
+| Overlap | Reduce scaleFactor |
+| Controls visible | Add pdfppt-noprint |
+| Image-only PPT | Missing data-chart |
 
 ---
 
 ## 📄 License
 
-MIT — free for commercial and personal use.
+MIT
 
 ---
 
-## 🤝 Contributing
-
-PRs welcome.  
-If you improve layout detection, chart support, or performance, feel free to contribute.
-
----
-
-**pdfppt-export** focuses on correctness and structure — not screenshots.  
-If it renders well, it exports well.
+**pdfppt-export** focuses on correctness and structure — not screenshots.
