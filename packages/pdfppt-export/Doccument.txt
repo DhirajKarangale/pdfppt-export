@@ -1,3 +1,0 @@
-Build: npm run build
-Pack: npm pack
-npm install ./pdfppt-export-1.0.0.tgz (path)
