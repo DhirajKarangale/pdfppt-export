@@ -54,7 +54,7 @@ Perfect for:
 ## 📦 Installation
 
 ```bash
-npm install pdfppt-export jspdf html-to-image pptxgenjs culori axios
+npm install pdfppt-export jspdf html-to-image pptxgenjs culori
 ```
 
 > React 18 is required.
