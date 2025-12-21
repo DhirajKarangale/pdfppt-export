@@ -1,4 +1,4 @@
-import "./pdfppt-export.css";
+// import "./pdfppt-export.css";
 import jsPDF from "jspdf"
 import { toPng } from "html-to-image"
 import React, { useEffect, useState, useRef } from "react"

@@ -8,4 +8,5 @@ export default defineConfig({
     clean: true,
     target: "es2019",
     external: ["react", "react-dom"],
+    injectStyle: true,
 });

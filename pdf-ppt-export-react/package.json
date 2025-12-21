@@ -35,24 +35,30 @@
     "report-generator",
     "ui-export"
   ],
-  "main": "dist/index.cjs",
-  "module": "dist/index.js",
-  "types": "dist/index.d.ts",
+  
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "type": "module",
+
   "exports": {
     ".": {
       "import": "./dist/index.js",
       "require": "./dist/index.cjs",
       "types": "./dist/index.d.ts"
-    }
+    },
+    "./style.css": "./dist/index.css"
   },
+  "sideEffects": [
+    "*.css"
+  ],
   "files": [
     "dist"
   ],
-  "sideEffects": [
-    "**/*.css"
-  ],
+
   "scripts": {
     "build": "tsup",
+    "build2": "vite build",
     "clean": "rimraf dist"
   },
   "peerDependencies": {

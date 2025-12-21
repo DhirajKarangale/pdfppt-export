@@ -12,6 +12,8 @@ import InfoBox from "../components/InfoBox"
 import PdfDownloader from "./PdfDownloader"
 import PptDownloader from "./PptDownloader"
 
+import { PDFDownloader, PPTDownloader } from "pdf-ppt-export-react";
+
 function Dashboard() {
       const printRef = useRef(null)
       const [showPdfModal, setShowPdfModal] = useState(false)
@@ -55,10 +57,14 @@ function Dashboard() {
                         </div>
                   </div>
 
-                  {showPdfModal && <PdfDownloader
-                        isOpen={showPdfModal}
+                  {showPdfModal && <PDFDownloader
+                        // isOpen={showPdfModal}
+                        // onClose={() => setShowPdfModal(false)}
+                        // contentRef={printRef}
+                        
                         onClose={() => setShowPdfModal(false)}
                         contentRef={printRef}
+                        defaultTitle="AABBCC"
                   />}
 
                   <PptDownloader

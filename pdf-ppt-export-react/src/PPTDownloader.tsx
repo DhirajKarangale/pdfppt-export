@@ -1,4 +1,4 @@
-import "./pdfppt-export.css";
+// import "./pdfppt-export.css";
 import PptxGenJS from "pptxgenjs";
 import { toPng } from "html-to-image";
 import { formatHex, parse, converter } from "culori";

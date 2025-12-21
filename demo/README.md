@@ -1,7 +1,7 @@
-# ⚛️ React POCs Collection
+# ⚛️ React PDF PPT Export Demo Collection
 
-This repository contains a collection of small Proof of Concepts (POCs) built using **React**.  
-Each POC demonstrates how to integrate or implement specific libraries, components, or features commonly used in modern React applications.
+This repository contains a collection of small Proof of Concepts (PDF PPT Export Demo) built using **React**.  
+Each PDF PPT Export Demo demonstrates how to integrate or implement specific libraries, components, or features commonly used in modern React applications.
 
 ---
 
@@ -21,7 +21,7 @@ A simple implementation to export part of a React component as a downloadable PD
 ---
 
 ### 2. 📊 PPT Downloader
-A POC for exporting React components directly into **PowerPoint (PPTX)** slides using:
+A PDF PPT Export Demo for exporting React components directly into **PowerPoint (PPTX)** slides using:
 - `pptxgenjs`
 - `html-to-image`
 
@@ -45,7 +45,7 @@ Integration of [shadcn/ui](https://ui.shadcn.com/) — a beautiful, customizable
 
 ## 🌐 Live Demo
 Check out the live demo here:  
-👉 [React POC Live](https://react-poc-fawn.vercel.app/)
+👉 [React PDF PPT Export Demo Live](https://demo-pdfppt-export.vercel.app/)
 
 ---
 
@@ -73,8 +73,8 @@ Make sure you have the following installed:
 ### 📦 Installation
 
 ```bash
-git clone https://github.com/DhirajKarangale/ReactPOC.git
-cd ReactPOC
+git clone https://github.com/DhirajKarangale/pdfppt-export
+cd demo
 npm install
 ```
 
