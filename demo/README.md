@@ -1,124 +1,183 @@
-# ⚛️ React PDF PPT Export Demo Collection
+# ⚛️ pdf-ppt-export-react — Demo Project
 
-This repository contains a collection of small Proof of Concepts (PDF PPT Export Demo) built using **React**.  
-Each PDF PPT Export Demo demonstrates how to integrate or implement specific libraries, components, or features commonly used in modern React applications.
+This is the **official demo & reference application** for the npm library  
+**`pdf-ppt-export-react`**.
 
----
+📦 **Library:** https://www.npmjs.com/package/pdf-ppt-export-react  
+🌐 **Live Demo:** https://demo-pdfppt-export.vercel.app/
 
-## 🚀 What's Included
-
-### 1. 📄 PDF Downloader
-A simple implementation to export part of a React component as a downloadable PDF using:
-- `html2canvas`
-- `jspdf`
-- `html-to-image`
-
-📌 **Features:**
-- Capture specific elements using `ref`
-- Render charts and content into high-resolution PDFs
-- Modal confirmation before download
+This project exists to **explain real behavior**, not just APIs.  
+If you want to understand **how charts, CSS, and layouts affect PDF & PPT export**, this demo is the source of truth.
 
 ---
 
-### 2. 📊 PPT Downloader
-A PDF PPT Export Demo for exporting React components directly into **PowerPoint (PPTX)** slides using:
-- `pptxgenjs`
-- `html-to-image`
+## 🎯 What This Demo Is (and Is Not)
 
-📌 **Features:**
-- Convert charts, text, and styled components into slides
-- Support for background, borders, padding, and text alignment
-- Exported PPT is **fully editable** in PowerPoint
-- Easily extendable for multi-slide exports
+✅ **This is**
+- A real dashboard app
+- A visual reference for export behavior
+- A safe playground to experiment with layout & CSS
+- The best way to learn the library correctly
 
----
-
-### 3. 🎨 shadcn/ui Integration
-Integration of [shadcn/ui](https://ui.shadcn.com/) — a beautiful, customizable UI component library based on Radix UI and Tailwind CSS.
-
-📌 **Features:**
-- Consistent styling with Tailwind
-- Easily extendable component set
-- Modern UI best practices
+❌ **This is not**
+- The library source
+- A minimal example
+- A screenshot-based exporter demo
 
 ---
 
-## 🌐 Live Demo
-Check out the live demo here:  
-👉 [React PDF PPT Export Demo Live](https://demo-pdfppt-export.vercel.app/)
+## 🧠 Core Idea
+
+`pdf-ppt-export-react` supports **two very different export pipelines**:
+
+| Export Type | Strategy | Output |
+|------------|----------|--------|
+| **PDF** | Full raster capture | Pixel-perfect PDF |
+| **PPTX** | Semantic reconstruction | Editable PowerPoint |
+
+This demo shows **both**, side-by-side.
 
 ---
 
-## 📸 Screenshots
+## 📄 PDF Export — How It Really Works
 
-Dashboard Example  
-![Dashboard](public/Screenshots/Dashboard.png)
+Powered by `PDFDownloader`
 
-Exported PDF  
-![PDF](public/Screenshots/PDF.png)
+### Key Characteristics
+- **Pure raster PDF**
+- What you see is exactly what you get
+- Charts are always converted to images
+- No text or chart is split across pages
 
-Exported PPT  
-![PPT](public/Screenshots/PPT.png)
+### How Pagination Works
+- DOM is analyzed into **block-sized elements**
+- Each block is placed fully on a page
+- If it doesn’t fit → a new page is created
+- Header (title + date) appears only on the **first page**
+
+### Important Rules
+- Elements with `.pdfppt-noprint` are excluded
+- Charts must use `.chart-snapshot`
+- Layout depends entirely on rendered DOM
+
+👉 **Best for:** reports, audits, sharing, printing
 
 ---
 
-## 🛠️ Getting Started
+## 📊 PPT Export — How It Really Works
 
-### Prerequisites
-Make sure you have the following installed:
-- [Node.js](https://nodejs.org/) (v18 or later recommended)
-- [npm](https://www.npmjs.com/)
-- Git
+Powered by `PPTDownloader`
 
-### 📦 Installation
+### This Is NOT an Image Export
+PPT export **rebuilds your dashboard semantically** into PowerPoint:
+
+- Text → editable text boxes
+- Charts → real PPT charts
+- Panels → shapes with fills & borders
+- Layout → computed & paginated
+
+### Export Pipeline (Simplified)
+1. Assign stable IDs to DOM nodes
+2. Deduplicate text (lowest unique container)
+3. Detect **group panels** (background, border, shadow, or forced)
+4. Extract charts via `data-chart` JSON
+5. Run layout engine
+6. Render editable slides
+7. Fallback to full-image slide if no groups detected
+
+---
+
+## 📦 CSS & Markup Rules That Matter
+
+### 1️⃣ `.chart-snapshot` (Required for Charts)
+All charts **must** be wrapped with:
+```html
+<div class="chart-snapshot" data-chart='{...}'>
+```
+
+Used for:
+- PDF rasterization
+- PPT preview snapshot
+- PPT chart reconstruction
+
+---
+
+### 2️⃣ `data-chart` (Required for PPT Charts)
+Charts are recreated using JSON metadata:
+```html
+data-chart='{
+  "chartType": "bar",
+  "labels": ["A", "B"],
+  "values": [10, 20],
+  "showLegend": true
+}'
+```
+
+Supports:
+- `bar`, `multibar`
+- `line`, `multiline`
+- `pie`, `doughnut`
+
+---
+
+### 3️⃣ Group Detection (Panels)
+An element becomes a **PPT group** if:
+- It has background color, border, or shadow  
+**OR**
+- It has `.ppt-group-root`
+
+Everything inside becomes part of the same slide group.
+
+---
+
+### 4️⃣ `.pdfppt-noprint`
+Excluded from **both PDF & PPT**:
+```html
+<div class="pdfppt-noprint">...</div>
+```
+
+---
+
+### 5️⃣ `data-ppt-skip`
+Skips element **only in PPT export**.
+
+---
+
+## 📁 Project Structure
+
+```
+demo/
+├── src/
+│   ├── components/
+│   │   ├── ChartBar.tsx
+│   │   ├── ChartLine.tsx
+│   │   ├── ChartPie.tsx
+│   │   └── InfoBox.tsx
+│   ├── App.tsx          # Export wiring + dashboard
+│   ├── index.css        # Export-aware styling
+│   └── main.tsx
+```
+
+---
+
+## 🛠️ Run Locally
 
 ```bash
 git clone https://github.com/DhirajKarangale/pdfppt-export
 cd demo
 npm install
-```
-
-### ▶️ Run the Project
-```bash
 npm run dev
 ```
 
 ---
 
-## 📚 Dependencies
+## 🧪 How to Use This Demo Properly
 
-This project uses the following major dependencies:
+- Change padding / borders → re-export PPT
+- Remove panel background → observe grouping changes
+- Modify chart metadata → see PPT chart updates
+- Add `.pdfppt-noprint` → confirm exclusion
 
-- **UI & Styling**
-  - `tailwindcss`
-  - `shadcn/ui`
-  - `lucide-react`
-  - `clsx`, `tailwind-merge`, `tailwind-variants`
-
-- **PDF Export**
-  - `jspdf`
-  - `html2canvas`
-  - `html-to-image`
-
-- **PPT Export**
-  - `pptxgenjs`
-  - `html-to-image`
-
-- **Charts**
-  - `chart.js`
-  - `react-chartjs-2`
-  - `recharts`
-
-- **Radix UI**
-  - `@radix-ui/react-dialog`
-  - `@radix-ui/react-scroll-area`
-  - `@radix-ui/react-separator`
-  - `@radix-ui/react-slot`
-
----
-
-## 🤝 Contributing
-Feel free to fork this repo, raise issues, or submit pull requests.  
-This project is intended as a **learning playground** and reference for developers exploring React integrations.
+This demo is intentionally **not minimal** — it’s realistic.
 
 ---

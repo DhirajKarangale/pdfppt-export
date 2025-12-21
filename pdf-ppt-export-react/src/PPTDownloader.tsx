@@ -29,12 +29,12 @@ import React, { useEffect, useRef, useState } from "react";
 
 type PPTDownloaderProps = {
   onClose: () => void;
-  contentRef: React.RefObject<HTMLElement>;
+  contentRef: React.RefObject<HTMLElement | null>;
 
   defaultTitle?: string;
-  imgSlideStart?: string;
-  imgSlideMiddle?: string;
-  imgSlideEnd?: string;
+  imgSlideStart?: any;
+  imgSlideMiddle?: any;
+  imgSlideEnd?: any;
 
   scaleFactor?: number;
   pptWidth?: number;
@@ -204,6 +204,7 @@ function PPTDownloader({
   const toRgb = converter('rgb');
   const bgColor = "#F5F5F5";
 
+  if (!contentRef || !contentRef.current) return;
 
   /**
    * PREVIEW_IMAGE_OPTIONS
@@ -1800,7 +1801,7 @@ function PPTDownloader({
    *   innerHTML is stored in component state (`previewContent`).
    */
   useEffect(() => {
-    if (!contentRef.current) return
+    if (!contentRef || !contentRef.current) return
     let isMounted = true
 
     /**
@@ -1813,6 +1814,7 @@ function PPTDownloader({
       setMsg("Generating preview...");
 
       const source = contentRef.current;
+      if (!source) return;
       const clonedNode = source.cloneNode(true) as HTMLElement;
       const fullWidth = source.scrollWidth;
       clonedNode.style.width = fullWidth ? `${fullWidth}px` : `${source.offsetWidth}px`;
