@@ -1,0 +1,47 @@
+{
+  "infoItems": [
+    "Coffee consumption: keeps meetings tolerable.",
+    "That one dev who 'fixed it' by restarting the app.",
+    "Unsolicited font opinions (Helvetica vs your feelings).",
+    "Calendar invites without agendas — a classic mystery."
+  ],
+  "infoItems2": [
+    "Bug that disappears when you open the debugger.",
+    "Mysterious semicolon causing international incidents.",
+    "Tabs vs spaces: never resolved, just archived.",
+    "'Quick win' feature requests that take three sprints."
+  ],
+  "infoItems3": [
+    "Deploys scheduled at 4:59 PM (edge-of-your-seat).",
+    "Commit message: 'misc fixes' — archaeology required.",
+    "Copy-pasted code that somehow still works.",
+    "That one emoji in a PR description 😅 — explains everything."
+  ],
+  "chartData": [
+    {
+      "label": "Coffee",
+      "data": 34,
+      "fill": "#F59E0B"
+    },
+    {
+      "label": "Bugs",
+      "data": 22,
+      "fill": "#EF4444"
+    },
+    {
+      "label": "Meetings",
+      "data": 18,
+      "fill": "#10B981"
+    },
+    {
+      "label": "Bikeshedding",
+      "data": 15,
+      "fill": "#3B82F6"
+    },
+    {
+      "label": "Celebrations",
+      "data": 11,
+      "fill": "#8B5CF6"
+    }
+  ]
+}
