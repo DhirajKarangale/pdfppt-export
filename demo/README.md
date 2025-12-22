@@ -1,166 +1,69 @@
-# ⚛️ pdf-ppt-export-react — Demo Project
+# pdfppt-export — Demo & Documentation
 
-This is the **official demo & reference application** for the npm library  
-**`pdf-ppt-export-react`**.
+This repository contains:
 
-📦 **Library:** https://www.npmjs.com/package/pdf-ppt-export-react  
-🌐 **Live Demo:** https://demo-pdfppt-export.vercel.app/
+- 📦 **Library documentation** for `pdf-ppt-export-react`
+- 🧪 **Live demo project** showing real-world usage
+- 🧩 **Reference implementation** to understand how everything works internally
 
-This project exists to **explain real behavior**, not just APIs.  
-If you want to understand **how charts, CSS, and layouts affect PDF & PPT export**, this demo is the source of truth.
-
----
-
-## 🎯 What This Demo Is (and Is Not)
-
-✅ **This is**
-- A real dashboard app
-- A visual reference for export behavior
-- A safe playground to experiment with layout & CSS
-- The best way to learn the library correctly
-
-❌ **This is not**
-- The library source
-- A minimal example
-- A screenshot-based exporter demo
+If you want to export any React dashboard or UI section to **PDF or PPTX**, this project shows exactly how to do it.
 
 ---
 
-## 🧠 Core Idea
+## 🔗 Important Links
 
-`pdf-ppt-export-react` supports **two very different export pipelines**:
+- 📦 **Library (npm)**  
+  https://www.npmjs.com/package/pdf-ppt-export-react
 
-| Export Type | Strategy | Output |
-|------------|----------|--------|
-| **PDF** | Full raster capture | Pixel-perfect PDF |
-| **PPTX** | Semantic reconstruction | Editable PowerPoint |
+- 🌐 **Live Demo**  
+  https://pdfppt-export.vercel.app/
 
-This demo shows **both**, side-by-side.
-
----
-
-## 📄 PDF Export — How It Really Works
-
-Powered by `PDFDownloader`
-
-### Key Characteristics
-- **Pure raster PDF**
-- What you see is exactly what you get
-- Charts are always converted to images
-- No text or chart is split across pages
-
-### How Pagination Works
-- DOM is analyzed into **block-sized elements**
-- Each block is placed fully on a page
-- If it doesn’t fit → a new page is created
-- Header (title + date) appears only on the **first page**
-
-### Important Rules
-- Elements with `.pdfppt-noprint` are excluded
-- Charts must use `.pdfppt-chart-snapshot`
-- Layout depends entirely on rendered DOM
-
-👉 **Best for:** reports, audits, sharing, printing
+- 📘 **Source Repository**  
+  https://github.com/DhirajKarangale/pdfppt-export
 
 ---
 
-## 📊 PPT Export — How It Really Works
+## 🚀 What This Demo Shows
 
-Powered by `PPTDownloader`
+Export a React dashboard to:
 
-### This Is NOT an Image Export
-PPT export **rebuilds your dashboard semantically** into PowerPoint:
+- 📄 Multi-page PDF  
+- 📊 Editable PowerPoint (PPTX)
 
-- Text → editable text boxes
-- Charts → real PPT charts
-- Panels → shapes with fills & borders
-- Layout → computed & paginated
+Handles:
 
-### Export Pipeline (Simplified)
-1. Assign stable IDs to DOM nodes
-2. Deduplicate text (lowest unique container)
-3. Detect **group panels** (background, border, shadow, or forced)
-4. Extract charts via `pdfppt-data-chart` JSON
-5. Run layout engine
-6. Render editable slides
-7. Fallback to full-image slide if no groups detected
+- Charts & graphs  
+- Panels / cards  
+- Text blocks & layouts  
+
+Features:
+
+- Uses real DOM structure (not screenshots only)
+- Works with Vite / CRA / JSX / TSX
 
 ---
 
-## 📦 CSS & Markup Rules That Matter
-
-### 1️⃣ `.pdfppt-chart-snapshot` (Required for Charts)
-All charts **must** be wrapped with:
-```html
-<div class="pdfppt-chart-snapshot" pdfppt-data-chart='{...}'>
-```
-
-Used for:
-- PDF rasterization
-- PPT preview snapshot
-- PPT chart reconstruction
-
----
-
-### 2️⃣ `pdfppt-data-chart` (Required for PPT Charts)
-Charts are recreated using JSON metadata:
-```html
-pdfppt-data-chart='{
-  "chartType": "bar",
-  "labels": ["A", "B"],
-  "values": [10, 20],
-  "showLegend": true
-}'
-```
-
-Supports:
-- `bar`, `multibar`
-- `line`, `multiline`
-- `pie`, `doughnut`
-
----
-
-### 3️⃣ Group Detection (Panels)
-An element becomes a **PPT group** if:
-- It has background color, border, or shadow  
-**OR**
-- It has `.pdfppt-ppt-group-root`
-
-Everything inside becomes part of the same slide group.
-
----
-
-### 4️⃣ `.pdfppt-noprint`
-Excluded from **both PDF & PPT**:
-```html
-<div class="pdfppt-noprint">...</div>
-```
-
----
-
-### 5️⃣ `pdfppt-data-ppt-skip`
-Skips element **only in PPT export**.
-
----
-
-## 📁 Project Structure
+## 📂 Project Structure (Relevant Parts)
 
 ```
-demo/
-├── src/
-│   ├── components/
-│   │   ├── ChartBar.tsx
-│   │   ├── ChartLine.tsx
-│   │   ├── ChartPie.tsx
-│   │   └── InfoBox.tsx
-│   ├── App.tsx          # Export wiring + dashboard
-│   ├── index.css        # Export-aware styling
-│   └── main.tsx
+pdfppt-export/
+├── demo/                  # Demo application
+│   ├── src/
+│   │   ├── Demo.tsx       # Main implementation example
+│   │   ├── components/    # Charts, panels, UI blocks
+│   │   └── utils/
+│   └── package.json
+│
+├── pdf-ppt-export-react/  # Library source
+│
+└── README.md
 ```
+
+👉 Start with **Demo.tsx** — it contains the full usage example.
 
 ---
 
-## 🛠️ Run Locally
+## 🛠️ Getting Started (Run Demo Locally)
 
 ```bash
 git clone https://github.com/DhirajKarangale/pdfppt-export
@@ -169,15 +72,71 @@ npm install
 npm run dev
 ```
 
+Then open the local URL shown in the terminal.
+
 ---
 
-## 🧪 How to Use This Demo Properly
+## 🧪 How the Demo Works
 
-- Change padding / borders → re-export PPT
-- Remove panel background → observe grouping changes
-- Modify chart metadata → see PPT chart updates
-- Add `.pdfppt-noprint` → confirm exclusion
+1. A dashboard UI is rendered (charts, panels, text)
+2. A ref is attached to the root container
+3. PDFDownloader and PPTDownloader modals are triggered
+4. The library:
+   - Scans the DOM
+   - Groups panels & content
+   - Exports structured PDF or PPTX
 
-This demo is intentionally **not minimal** — it’s realistic.
+All logic is fully visible and customizable.
+
+---
+
+## 📌 Key File to Read
+
+### demo/src/Demo.tsx
+
+This file shows:
+
+- How to attach contentRef
+- How to open export modals
+- How to configure PDF & PPT export
+- How images, charts, and layouts are handled
+
+If you understand **Demo.tsx**, you understand the library.
+
+---
+
+## 📦 Using the Library in Your Own Project
+
+```bash
+npm install pdf-ppt-export-react
+```
+
+```ts
+import { PDFDownloader, PPTDownloader } from "pdf-ppt-export-react";
+```
+
+Attach a ref to your dashboard and you’re ready to export.
+
+👉 Full API & props are documented in the library README.
+
+---
+
+## 🎯 Who This Is For
+
+- React developers building dashboards
+- Analytics / reporting tools
+- Admin panels
+- Internal tools needing export to PDF / PPT
+- SaaS apps needing client-ready reports
+
+---
+
+## 🧩 Design Principles
+
+- Minimal API
+- No lock-in
+- Real editable PPT slides
+- Works with existing UI
+- Developer-first design
 
 ---

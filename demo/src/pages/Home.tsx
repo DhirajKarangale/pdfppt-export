@@ -313,6 +313,62 @@ function Home() {
         </div>
       </section>
 
+      {/* Contact / Feedback */}
+      <section className="py-20 bg-slate-50 border-t border-slate-200">
+        <div className="container mx-auto px-6">
+          <div className="max-w-3xl mx-auto text-center">
+            <h2 className="text-3xl font-bold text-slate-900 mb-4">
+              Questions or Feedback?
+            </h2>
+            <p className="text-lg text-slate-600 mb-10">
+              Have suggestions, issues, or ideas? I’d love to hear from you.
+            </p>
+
+            <div className="grid gap-6 md:grid-cols-3">
+              {/* Email */}
+              <a
+                href="mailto:dhirajkarangale02@gmail.com"
+                className="p-6 bg-white rounded-lg border border-slate-200 hover:border-blue-300 hover:shadow-md transition-all"
+              >
+                <MessageSquare className="w-6 h-6 text-blue-600 mx-auto mb-3" />
+                <h3 className="font-semibold text-slate-900 mb-1">Email</h3>
+                <p className="text-sm text-slate-600 break-all">
+                  dhirajkarangale02@gmail.com
+                </p>
+              </a>
+
+              {/* Portfolio */}
+              <a
+                href="https://dhirajkarangale.netlify.app/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-6 bg-white rounded-lg border border-slate-200 hover:border-blue-300 hover:shadow-md transition-all"
+              >
+                <Code2 className="w-6 h-6 text-emerald-600 mx-auto mb-3" />
+                <h3 className="font-semibold text-slate-900 mb-1">Portfolio</h3>
+                <p className="text-sm text-slate-600">
+                  View projects & work
+                </p>
+              </a>
+
+              {/* LinkedIn */}
+              <a
+                href="https://www.linkedin.com/in/dhiraj-karangale-464ab91bb/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-6 bg-white rounded-lg border border-slate-200 hover:border-blue-300 hover:shadow-md transition-all"
+              >
+                <Heart className="w-6 h-6 text-indigo-600 mx-auto mb-3" />
+                <h3 className="font-semibold text-slate-900 mb-1">LinkedIn</h3>
+                <p className="text-sm text-slate-600">
+                  Connect professionally
+                </p>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Footer */}
       <footer className="py-8 bg-slate-900 text-slate-400 border-t border-slate-800">
         <div className="container mx-auto px-6 text-center">
