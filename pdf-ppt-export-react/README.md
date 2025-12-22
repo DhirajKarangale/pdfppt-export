@@ -24,6 +24,10 @@ A React-based, DOM-driven export utility that converts rendered dashboards into 
 
 ---
 
+![pdfppt-export – Export React dashboards to PDF & PPTX](https://raw.githubusercontent.com/DhirajKarangale/pdfppt-export/main/Assets/Cover1.png)
+
+---
+
 ## ✨ Features
 
 ### PDF Export
