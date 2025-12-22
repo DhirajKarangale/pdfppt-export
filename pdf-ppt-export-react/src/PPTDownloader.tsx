@@ -1,4 +1,3 @@
-// import "./pdfppt-export.css";
 import PptxGenJS from "pptxgenjs";
 import { toPng } from "html-to-image";
 import { formatHex, parse, converter } from "culori";
@@ -805,10 +804,10 @@ function PPTDownloader({
 
       if (!uid || shapeUIDs.has(uid)) continue;
       if (el.closest(".pdfppt-noprint") || el === outermostWrapper) continue;
-      if (el.hasAttribute("data-ppt-skip")) continue;
+      if (el.hasAttribute("pdfppt-data-ppt-skip")) continue;
 
       const info = getElementInfo(el, rootRect, pxToInX, pxToInY);
-      const isForcedGroup = el.classList.contains("ppt-group-root");
+      const isForcedGroup = el.classList.contains("pdfppt-ppt-group-root");
 
       if (!isForcedGroup && !hasVisualStyle(info.style)) continue;
 
@@ -914,7 +913,7 @@ function PPTDownloader({
   };
 
   /**
-   * Assigns chart placeholder elements (with data-chart JSON) into the group whose panel fully contains them.
+   * Assigns chart placeholder elements (with pdfppt-data-chart JSON) into the group whose panel fully contains them.
    * @param {Element[]} allNodes All descendant nodes.
    * @param {Array} groups Group collection.
    * @param {DOMRect} rootRect Root bounds.
@@ -932,7 +931,7 @@ function PPTDownloader({
       if (!(el instanceof HTMLElement)) continue;
       if (el.closest("pdfppt-noprint")) continue;
 
-      const chartMetaRaw = el.getAttribute("data-chart");
+      const chartMetaRaw = el.getAttribute("pdfppt-data-chart");
       if (!chartMetaRaw) continue;
       if (!chartMetaRaw.trim().startsWith("{") || !chartMetaRaw.trim().endsWith("}")) continue;
 
@@ -1624,7 +1623,7 @@ function PPTDownloader({
   };
 
   /**
-   * Recreates charts defined by serialized JSON stored in each chart element's data-chart attribute.
+   * Recreates charts defined by serialized JSON stored in each chart element's pdfppt-data-chart attribute.
    * Currently supports 'bar', 'pie', and 'doughnut'. Other types default to a single-series dataset.
    * @param {Array} groups Groups containing chart placement info.
    * @param {import('pptxgenjs').Slide[]} slides Slides array.
@@ -1634,7 +1633,7 @@ function PPTDownloader({
       for (const chart of group.charts) {
         let chartNode = chart.element;
 
-        const chartMetaRaw = chartNode.getAttribute("data-chart");
+        const chartMetaRaw = chartNode.getAttribute("pdfppt-data-chart");
         if (!chartMetaRaw) continue;
         if (!chartMetaRaw.trim().startsWith("{") || !chartMetaRaw.trim().endsWith("}")) continue;
 
@@ -1842,8 +1841,8 @@ function PPTDownloader({
 
       clonedNode.querySelectorAll(".pdfppt-noprint").forEach((el) => el.remove());
 
-      const originalCharts = source.querySelectorAll(".chart-snapshot");
-      const clonedCharts = clonedNode.querySelectorAll(".chart-snapshot");
+      const originalCharts = source.querySelectorAll(".pdfppt-chart-snapshot");
+      const clonedCharts = clonedNode.querySelectorAll(".pdfppt-chart-snapshot");
 
       await Promise.all(
         Array.from(originalCharts).map(async (chartEl, index) => {
@@ -1892,7 +1891,7 @@ function PPTDownloader({
   }, [contentRef]);
 
   return (
-    <div className="pdfppt-export-modal-overlay no-print">
+    <div className="pdfppt-export-modal-overlay pdfppt-noprint">
       <div className="pdfppt-export-modal-container">
         <div className="pdfppt-export-modal-header">
           <h2 className="pdfppt-export-modal-title">Export PPT</h2>

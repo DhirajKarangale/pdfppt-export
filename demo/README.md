@@ -57,7 +57,7 @@ Powered by `PDFDownloader`
 
 ### Important Rules
 - Elements with `.pdfppt-noprint` are excluded
-- Charts must use `.chart-snapshot`
+- Charts must use `.pdfppt-chart-snapshot`
 - Layout depends entirely on rendered DOM
 
 👉 **Best for:** reports, audits, sharing, printing
@@ -80,7 +80,7 @@ PPT export **rebuilds your dashboard semantically** into PowerPoint:
 1. Assign stable IDs to DOM nodes
 2. Deduplicate text (lowest unique container)
 3. Detect **group panels** (background, border, shadow, or forced)
-4. Extract charts via `data-chart` JSON
+4. Extract charts via `pdfppt-data-chart` JSON
 5. Run layout engine
 6. Render editable slides
 7. Fallback to full-image slide if no groups detected
@@ -89,10 +89,10 @@ PPT export **rebuilds your dashboard semantically** into PowerPoint:
 
 ## 📦 CSS & Markup Rules That Matter
 
-### 1️⃣ `.chart-snapshot` (Required for Charts)
+### 1️⃣ `.pdfppt-chart-snapshot` (Required for Charts)
 All charts **must** be wrapped with:
 ```html
-<div class="chart-snapshot" data-chart='{...}'>
+<div class="pdfppt-chart-snapshot" pdfppt-data-chart='{...}'>
 ```
 
 Used for:
@@ -102,10 +102,10 @@ Used for:
 
 ---
 
-### 2️⃣ `data-chart` (Required for PPT Charts)
+### 2️⃣ `pdfppt-data-chart` (Required for PPT Charts)
 Charts are recreated using JSON metadata:
 ```html
-data-chart='{
+pdfppt-data-chart='{
   "chartType": "bar",
   "labels": ["A", "B"],
   "values": [10, 20],
@@ -124,7 +124,7 @@ Supports:
 An element becomes a **PPT group** if:
 - It has background color, border, or shadow  
 **OR**
-- It has `.ppt-group-root`
+- It has `.pdfppt-ppt-group-root`
 
 Everything inside becomes part of the same slide group.
 
@@ -138,7 +138,7 @@ Excluded from **both PDF & PPT**:
 
 ---
 
-### 5️⃣ `data-ppt-skip`
+### 5️⃣ `pdfppt-data-ppt-skip`
 Skips element **only in PPT export**.
 
 ---

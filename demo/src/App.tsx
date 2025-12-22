@@ -32,15 +32,15 @@ function App() {
         </Card>
 
         <div className="bg-transparent grid grid-cols-1 sm:grid-cols-2 gap-6 pt-6">
-          <div className="chart-snapshot" data-id="chart-1">
+          <div className="pdfppt-chart-snapshot" data-id="chart-1">
             <ChartPie title="Chart Pie" />
           </div>
 
-          <div className="chart-snapshot" data-id="chart-1">
+          <div className="pdfppt-chart-snapshot" data-id="chart-1">
             <ChartLine title="Line Chart" />
           </div>
 
-          <div className="chart-snapshot" data-id="chart-1">
+          <div className="pdfppt-chart-snapshot" data-id="chart-1">
             <ChartBar title="Bar Chart" />
           </div>
 

@@ -52,8 +52,8 @@ function ChartLine({ title }: { title: string }) {
                 >
                     <LineChart
                         data={chartData}
-                        data-chart={JSON.stringify(chartMeta)}
-                        data-chart-type="line"
+                        pdfppt-data-chart={JSON.stringify(chartMeta)}
+                        pdfppt-data-chart-type="line"
                     >
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis dataKey="label" />

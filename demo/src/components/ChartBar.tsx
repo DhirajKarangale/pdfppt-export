@@ -42,8 +42,8 @@ function ChartBar({ title }: { title: string }) {
                 >
 
                     <BarChart data={chartData}
-                        data-chart={JSON.stringify(chartMeta)}
-                        data-chart-type="bar">
+                        pdfppt-data-chart={JSON.stringify(chartMeta)}
+                        pdfppt-data-chart-type="bar">
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis dataKey="label" />
                         <YAxis />

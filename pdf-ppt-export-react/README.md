@@ -1,68 +1,96 @@
-![pdfppt-export – Export React dashboards to PDF & PPTX](https://raw.githubusercontent.com/DhirajKarangale/pdfppt-export/main/Assets/Cover1.png)
+# pdf-ppt-export-react
 
-# pdfppt-export
+## Overview
 
-**pdfppt-export** is a React helper library that provides two drop‑in modal components —  
-`PDFDownloader` and `PPTDownloader` — to export any rendered dashboard or UI section into:
+**pdf-ppt-export-react** is a React-only, DOM-driven export utility that allows you to export any rendered dashboard or UI section into:
 
-- 📄 **Multi‑page A4 PDFs** with smart page breaks  
-- 📊 **Structured PowerPoint (PPTX)** files with real text, shapes, panels, and charts  
+- 📄 **Multi-page A4 PDFs** (with smart pagination)
+- 📊 **Editable PowerPoint (PPTX)** files (real text, shapes, panels, and charts)
 
-Exports are generated directly from the **existing DOM** using a simple `ref` and a few lightweight CSS markers.
-
----
-
-## 🧠 How the Library Works (Mental Model)
-
-1. Wrap your dashboard inside a container referenced by `contentRef`
-2. On export, the DOM is **cloned** (original DOM is never mutated)
-3. Elements are processed using CSS markers:
-   - UI controls removed
-   - Charts converted
-   - Panels detected
-4. Output is generated as **PDF** or **PPTX**
-
-If it renders correctly in the browser, it can be exported.
+It works **without rewriting your components**, **without custom schemas**, and **without server-side rendering**.  
+If your UI renders correctly in the browser, this library can export it.
 
 ---
 
-## ✨ Export Modes
+## 🧠 What This Library Is About
 
-### 📄 PDF Export (`PDFDownloader`)
-- A4 portrait pages
-- Smart block‑level slicing (elements never split across pages)
-- Charts rasterized as images for reliability
-- Header (title + date) on first page only
-- Fallback to full snapshot if layout detection fails
+Most export tools rely on screenshots.
 
-### 📊 PPT Export (`PPTDownloader`)
-- Real PowerPoint slides (not screenshots)
-- Panels auto‑detected from DOM styles
-- Text, shapes, borders recreated
-- Charts rebuilt as **editable PPT charts**
-- Up to **2 panels per slide**
-- Optional branded start / middle / end slides
+**pdf-ppt-export-react uses a structure-first approach instead.**
+
+### PDF Export
+- Converts DOM blocks into images
+- Preserves layout fidelity
+- Prevents elements from breaking across pages
+- Optimized for reliability across browsers
+
+### PPT Export
+- Analyzes the DOM structure
+- Detects panels, text, shapes, borders
+- Rebuilds them as **real PowerPoint elements**
+- Charts become **editable PPT charts**, not images
+
+> ⚠️ **Important**: PPT export is complex and still evolving.  
+> It works best when you strictly follow the documented conventions.
 
 ---
 
-## 📦 Installation
+## 🔗 Live Demo & Example Project
+
+**Live Demo**  
+https://demo-pdfppt-export.vercel.app/
+
+**Demo Source Code**  
+https://github.com/DhirajKarangale/pdfppt-export/tree/main/demo
+
+The demo shows real dashboards exported to PDF & PPT using the same API you’ll use.
+
+---
+
+## 📦 Dependencies (What & Why)
+
+This library is intentionally built on stable, battle-tested packages.
+
+### Core Dependencies
+
+**culori**  
+https://www.npmjs.com/package/culori  
+→ Converts CSS colors (rgb, hsl, named colors) into normalized hex values for PPT shapes.
+
+**html-to-image**  
+https://www.npmjs.com/package/html-to-image  
+→ Rasterizes DOM nodes into PNGs (used for charts & PDF rendering).
+
+**jspdf**  
+https://www.npmjs.com/package/jspdf  
+→ Generates multi-page A4 PDFs with precise positioning.
+
+**pptxgenjs**  
+https://www.npmjs.com/package/pptxgenjs  
+→ Creates real PowerPoint slides, shapes, text boxes, and charts.
+
+---
+
+## 📥 Installation
 
 ```bash
-npm install pdfppt-export jspdf html-to-image pptxgenjs culori
+npm install pdf-ppt-export-react jspdf html-to-image pptxgenjs culori
 ```
 
-> React 18 required
+### Peer Requirements
+- React ≥ 16.8
+- React DOM ≥ 16.8
 
 ---
 
-## 🧩 Basic Usage
+## 🚀 Basic Usage
 
-```jsx
-import { PDFDownloader, PPTDownloader } from "pdfppt-export";
+```tsx
+import { PDFDownloader, PPTDownloader } from "pdf-ppt-export-react";
 import { useRef, useState } from "react";
 
-export default function DashboardPage() {
-  const dashboardRef = useRef(null);
+export default function Dashboard() {
+  const dashboardRef = useRef<HTMLDivElement>(null);
   const [pdfOpen, setPdfOpen] = useState(false);
   const [pptOpen, setPptOpen] = useState(false);
 
@@ -88,7 +116,7 @@ export default function DashboardPage() {
           <button onClick={() => setPptOpen(true)}>Export PPT</button>
         </div>
 
-        {/* Dashboard UI */}
+        {/* Your dashboard UI */}
       </div>
     </>
   );
@@ -97,9 +125,7 @@ export default function DashboardPage() {
 
 ---
 
-## ⚙️ Component Props Reference
-
-## 📄 PDFDownloader Props
+## ⚙️ PDFDownloader Props
 
 ```tsx
 <PDFDownloader
@@ -110,14 +136,21 @@ export default function DashboardPage() {
 ```
 
 | Prop | Required | Type | Description |
-|----|----|----|----|
-| `contentRef` | ✅ | `React.RefObject<HTMLElement>` | Root dashboard container to export |
-| `onClose` | ✅ | `() => void` | Called on close or after download |
-| `defaultTitle` | ❌ | `string` | Initial title & PDF filename |
+|-----|----------|------|-------------|
+| contentRef | ✅ | RefObject<HTMLElement> | Root DOM node to export |
+| onClose | ✅ | () => void | Called after close or download |
+| defaultTitle | ❌ | string | PDF title & filename |
+
+### PDF Behavior
+- A4 portrait pages
+- Elements never split across pages
+- Charts converted to images
+- Header (title + date) on first page only
+- Automatic fallback to full snapshot if layout detection fails
 
 ---
 
-## 📊 PPTDownloader Props
+## ⚙️ PPTDownloader Props
 
 ```tsx
 <PPTDownloader
@@ -138,53 +171,93 @@ export default function DashboardPage() {
 ### Core Props
 
 | Prop | Required | Default | Description |
-|----|----|----|----|
-| `contentRef` | ✅ | — | Root dashboard DOM |
-| `onClose` | ✅ | — | Close handler |
-| `defaultTitle` | ❌ | `"PPT Title"` | Initial title & filename |
+|------|----------|---------|-------------|
+| contentRef | ✅ | — | Root dashboard DOM |
+| onClose | ✅ | — | Close callback |
+| defaultTitle | ❌ | "PPT Title" | Filename & title |
 
 ### Layout & Scaling
 
-| Prop | Default | Description |
-|----|----|----|
-| `scaleFactor` | `1.35` | Panel scaling factor |
-| `pptWidth` | `13.333` | Slide width (inches) |
-| `pptHeight` | `7.5` | Slide height (inches) |
-| `groupGapY` | `0` | Vertical gap between panels (inches) |
+### Layout & Scaling
 
-### Branding & Slides
-
-| Prop | Default | Description |
-|----|----|----|
-| `isStartEnd` | `true` | Include start/end slides |
-| `imgSlideStart` | `undefined` | Start slide background |
-| `imgSlideMiddle` | `undefined` | Content slide background |
-| `imgSlideEnd` | `undefined` | End slide background |
+| Prop        | Required | Default | Description |
+|-------------|----------|---------|-------------|
+| scaleFactor | ❌       | 1.35    | Global panel scaling before layout |
+| pptWidth    | ❌       | 13.333  | Slide width (inches) |
+| pptHeight   | ❌       | 7.5     | Slide height (inches) |
+| groupGapY   | ❌       | 0       | Vertical gap between panels on a slide |
 
 ---
 
-## 🎨 CSS Classes (Very Important)
+### Branding Slides
 
-### `pdfppt-noprint`
-Exclude UI from export.
+| Prop            | Required | Default   | Description |
+|-----------------|----------|-----------|-------------|
+| isStartEnd      | ❌       | true      | Enable start & end slides |
+| imgSlideStart   | ❌       | undefined | Start slide background image |
+| imgSlideMiddle  | ❌       | undefined | Content slide background image |
+| imgSlideEnd     | ❌       | undefined | End slide background image |
+
+---
+
+## 📊 Adding Charts (Very Important)
+
+Charts must:
+- Be rendered normally in React
+- Contain a `chart-snapshot` class
+- Include `data-chart` metadata (JSON)
+
+### Example (Recharts)
+
+```tsx
+const chartMeta = {
+  chartType: "bar",
+  labels: ["A", "B", "C"],
+  values: [275, 200, 187],
+  colors: ["#93C5FD", "#60A5FA", "#3B82F6"],
+  legendColor: "#1D4ED8",
+  lableColor: "#1D4ED8",
+};
+
+<BarChart
+  data={chartData}
+  className="chart-snapshot"
+  data-chart={JSON.stringify(chartMeta)}
+/>
+```
+
+### Supported Chart Types
+
+| Chart | chartType |
+|------|-----------|
+| Bar | bar |
+| Line | line |
+| Pie | pie |
+| Doughnut | doughnut |
+| Multi-Bar | multibar |
+| Multi-Line | multiline |
+
+---
+
+## 🎨 Required CSS Classes
+
+### pdfppt-noprint
+Exclude UI elements from export.
 
 ```html
 <div class="pdfppt-noprint">
-  buttons, filters, dropdowns
+  Filters, buttons, dropdowns
 </div>
 ```
 
-### `chart-snapshot`
+### chart-snapshot
 Marks chart containers.
 
 ```html
-<div
-  class="chart-snapshot"
-  data-chart='{"chartType":"pie","labels":["A","B"],"values":[60,40]}'
-></div>
+<div class="chart-snapshot" data-chart="..."></div>
 ```
 
-### `ppt-group-root`
+### ppt-group-root
 Forces panel grouping in PPT.
 
 ```html
@@ -196,82 +269,27 @@ Forces panel grouping in PPT.
 
 ---
 
-## 📊 Charts — Full Guide
+## ⚠️ Important Notes About PPT Export
 
-### Supported Chart Types
+PPT export is **early-stage and under active development**.
 
-| Type | chartType |
-|----|----|
-| Bar | `bar` |
-| Line | `line` |
-| Pie | `pie` |
-| Doughnut | `doughnut` |
-| Multi‑bar | `multibar` |
-| Multi‑line | `multiline` |
+### Known Limitations
+- Heuristic-based layout
+- Complex absolute positioning may fail
+- CSS gradients are not mapped
+- Border radius is partially approximated
 
----
+### Best Results If You:
+- Use card-like containers
+- Keep predictable spacing
+- Avoid deeply nested absolute layouts
+- Follow class & metadata rules strictly
 
-### Basic Chart Example
-
-```html
-<div
-  class="chart-snapshot"
-  data-chart='{
-    "chartType": "bar",
-    "labels": ["Jan","Feb","Mar"],
-    "values": [120,90,150],
-    "colors": ["#2563EB","#60A5FA","#93C5FD"]
-  }'
-></div>
-```
-
----
-
-### Multi‑Series Chart Example
-
-```html
-<div
-  class="chart-snapshot"
-  data-chart='{
-    "chartType": "multiline",
-    "multilineData": [
-      { "name": "Users", "labels": ["Jan","Feb"], "values": [200,260] },
-      { "name": "Orders", "labels": ["Jan","Feb"], "values": [120,180] }
-    ]
-  }'
-></div>
-```
-
----
-
-## 🧱 Recommended Project Structure
-
-```txt
-src/
- ├─ components/
- ├─ charts/
- ├─ pages/
- ├─ export/
- └─ App.tsx
-```
-
----
-
-## 🧪 Common Issues & Fixes
-
-| Issue | Fix |
-|----|----|
-| Blank chart | Invalid JSON |
-| Overlap | Reduce scaleFactor |
-| Controls visible | Add pdfppt-noprint |
-| Image-only PPT | Missing data-chart |
+📌 **If you follow the guide, you will get clean, editable PPTs.**  
+We are actively improving layout intelligence and edge cases.
 
 ---
 
 ## 📄 License
 
 MIT
-
----
-
-**pdfppt-export** focuses on correctness and structure — not screenshots.

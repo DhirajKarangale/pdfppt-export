@@ -1,4 +1,3 @@
-// import "./pdfppt-export.css";
 import jsPDF from "jspdf"
 import { toPng } from "html-to-image"
 import React, { useEffect, useState, useRef } from "react"
@@ -123,7 +122,7 @@ function collectRenderableBlocks(rootNode, maxContentHeight, maxContentWidth) {
  * Modal dialog that lets a user preview and export the referenced dashboard DOM as a PDF.
  *
  * High‑level flow:
- * 1. Preview phase: clone the dashboard root, rasterize chart nodes (".chart-snapshot") to PNG, store cloned HTML.
+ * 1. Preview phase: clone the dashboard root, rasterize chart nodes (".pdfppt-chart-snapshot") to PNG, store cloned HTML.
  * 2. Export phase: clone again, rasterize charts, then gather block-level DOM nodes sized to fit within a PDF page.
  * 3. Each block is rasterized (html-to-image), then piped through addElementWithPageBreak so items land on a page
  *    boundary before overflow, ensuring charts/cards/containers never split across pages.
@@ -193,7 +192,7 @@ function PDFDownloader({ onClose, contentRef, defaultTitle = "PDF Title" }) {
 	* Workflow summary:
 	* 1. Wait for fonts + double rAF for layout stability.
 	* 2. Clone root, inline CSS variables, strip ".pdfppt-noprint" elements.
-	* 3. Rasterize each ".chart-snapshot" to PNG and replace its DOM.
+	* 3. Rasterize each ".pdfppt-chart-snapshot" to PNG and replace its DOM.
 	* 4. Append clone off-screen, gather block-sized DOM nodes that fit within PDF bounds.
 	* 5. Convert each block to PNG and call addElementWithPageBreak so the element lands wholly on the current page.
 	* 6. Render standardized header (title, date, rule) on every page before placing content.
@@ -234,8 +233,8 @@ function PDFDownloader({ onClose, contentRef, defaultTitle = "PDF Title" }) {
 
 			clone.querySelectorAll(".pdfppt-noprint").forEach((el) => el.remove());
 
-			const originalCharts = originalNode.querySelectorAll(".chart-snapshot");
-			const clonedCharts = clone.querySelectorAll(".chart-snapshot");
+			const originalCharts = originalNode.querySelectorAll(".pdfppt-chart-snapshot");
+			const clonedCharts = clone.querySelectorAll(".pdfppt-chart-snapshot");
 
 			await Promise.all(
 				Array.from(originalCharts).map(async (chartEl, i) => {
@@ -444,8 +443,8 @@ function PDFDownloader({ onClose, contentRef, defaultTitle = "PDF Title" }) {
 
 			clonedNode.querySelectorAll(".pdfppt-noprint").forEach((el) => el.remove());
 
-			const originalCharts = source.querySelectorAll(".chart-snapshot");
-			const clonedCharts = clonedNode.querySelectorAll(".chart-snapshot");
+			const originalCharts = source.querySelectorAll(".pdfppt-chart-snapshot");
+			const clonedCharts = clonedNode.querySelectorAll(".pdfppt-chart-snapshot");
 
 			await Promise.all(
 				Array.from(originalCharts).map(async (chartEl, index) => {

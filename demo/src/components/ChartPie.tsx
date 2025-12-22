@@ -34,8 +34,8 @@ function ChartPie({ title }: { title: string }) {
                     className="mx-auto aspect-square max-h-[250px]"
                 >
                     <PieChart
-                        data-chart={JSON.stringify(chartMeta)}
-                        data-chart-type="pie">
+                        pdfppt-data-chart={JSON.stringify(chartMeta)}
+                        pdfppt-data-chart-type="pie">
                         <ChartTooltip
                             cursor={false}
                             content={<ChartTooltipContent hideLabel />}
