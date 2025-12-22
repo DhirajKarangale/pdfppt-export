@@ -11,8 +11,7 @@ function Navbar() {
     { label: "Documentation", path: "/documentation", icon: FileText },
   ];
 
-  const isOnDemoRoute = location.pathname === "/demo";
-  const isActive = (path) => location.pathname === path;
+  const isActive = (path: string) => location.pathname === path;
 
   return (
     <header className="sticky top-0 z-40 bg-white border-b border-slate-200 shadow-sm">

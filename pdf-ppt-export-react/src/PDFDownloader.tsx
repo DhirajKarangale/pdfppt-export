@@ -159,8 +159,8 @@ function PDFDownloader({
 	contentRef,
 	defaultTitle = "PPT Title",
 }: PDFDownloaderProps) {
-	const [previewContent, setPreviewContent] = useState(defaultTitle)
-	const [title, setTitle] = useState("")
+	const [previewContent, setPreviewContent] = useState("")
+	const [title, setTitle] = useState(defaultTitle)
 	const [scale, setScale] = useState(1);
 	const [msg, setMsg] = useState("Loading...");
 	const previewRef = useRef<HTMLDivElement | null>(null);
