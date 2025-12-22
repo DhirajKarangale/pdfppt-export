@@ -87,6 +87,7 @@ function ChartPie({ title, chartData }: ChartPieProps) {
       legendColor: "#05004E",
       lableColor: "#FFFFFF",
       showLegend: false,
+      showValue: true,
     }
   }, [pieData])
 
@@ -107,7 +108,7 @@ function ChartPie({ title, chartData }: ChartPieProps) {
   };
 
   return (
-    <Card className="w-full h-full flex flex-col p-0 m-0 gap-0 rounded-[20px] shadow-[0px_4px_20px_0px_#EEEEEE80] ppt-group-root" style={{ border: '1px solid #F8F9FA' }}>
+    <Card className="w-full h-full flex flex-col p-0 m-0 gap-0 rounded-[20px] shadow-[0px_4px_20px_0px_#EEEEEE80]" style={{ border: '1px solid #F8F9FA' }}>
 
       <CardHeader className="w-full h-[32px] mr-[19px] mt-[25px]">
         <div className="w-full text-h2 font-semibold" style={{ color: '#05004E' }}>

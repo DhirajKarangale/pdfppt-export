@@ -2,6 +2,25 @@ import jsPDF from "jspdf"
 import { toPng } from "html-to-image"
 import React, { useEffect, useState, useRef } from "react"
 
+type PDFDownloaderProps = {
+	onClose: () => void;
+	contentRef: React.RefObject<HTMLElement | null>;
+	defaultTitle?: string;
+};
+
+type LayoutState = {
+	marginX: number;
+	topContentMargin: number;
+	bottomMargin: number;
+	spacing: number;
+	pageWidth: number;
+	pageHeight: number;
+	headerHeight: number;
+	currentHeaderHeight: number;
+	currentY: number;
+	preparePage?: (pdf: jsPDF, includeHeader: boolean) => number;
+};
+
 const DEFAULT_LAYOUT = {
 	marginX: 20,
 	topContentMargin: 16,
@@ -134,7 +153,12 @@ function collectRenderableBlocks(rootNode, maxContentHeight, maxContentWidth) {
  * @param {() => void} onClose Invoked to close the dialog (also after successful download).
  * @param {React.RefObject<HTMLElement>} contentRef Ref pointing to the dashboard root being exported.
  */
-function PDFDownloader({ onClose, contentRef, defaultTitle = "PDF Title" }) {
+// function PDFDownloader({ onClose, contentRef, defaultTitle = "PDF Title" }) {
+function PDFDownloader({
+	onClose,
+	contentRef,
+	defaultTitle = "PPT Title",
+}: PDFDownloaderProps) {
 	const [previewContent, setPreviewContent] = useState(defaultTitle)
 	const [title, setTitle] = useState("")
 	const [scale, setScale] = useState(1);
@@ -211,7 +235,7 @@ function PDFDownloader({ onClose, contentRef, defaultTitle = "PDF Title" }) {
 			await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
 
 			const originalNode = contentRef.current;
-			const clone = originalNode.cloneNode(true);
+			const clone = originalNode.cloneNode(true) as HTMLElement;
 			const fullWidth = originalNode.scrollWidth;
 			clone.style.width = fullWidth ? `${fullWidth}px` : `${originalNode.offsetWidth}px`;
 			clone.style.maxWidth = clone.style.width;
@@ -416,7 +440,9 @@ function PDFDownloader({ onClose, contentRef, defaultTitle = "PDF Title" }) {
 			setMsg("Generating preview...");
 
 			const source = contentRef.current;
-			const clonedNode = source.cloneNode(true);
+			if (!source) return;
+			
+			const clonedNode = source.cloneNode(true) as HTMLElement;
 			const fullWidth = source.scrollWidth;
 			clonedNode.style.width = fullWidth ? `${fullWidth}px` : `${source.offsetWidth}px`;
 			clonedNode.style.maxWidth = clonedNode.style.width;

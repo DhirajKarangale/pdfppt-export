@@ -5,9 +5,9 @@ import { Coffee, Bug, Calendar, Download, FileText, Presentation, Info } from "l
 import InfoBox from "../components/demo/InfoBox";
 import ChartPie from "../components/demo/ChartPie";
 
-import imgSlideStartLocal from "../utils/Slides/Start.png";
-import imgSlideMiddleLocal from "../utils/Slides/Start.png";
-import imgSlideEndLocal from "../utils/Slides/End.png";
+import imgSlideStartLocal from "../utils/Slides/Start.PNG";
+import imgSlideMiddleLocal from "../utils/Slides/Middle.png";
+import imgSlideEndLocal from "../utils/Slides/End.PNG";
 import demoData from "../utils/demoData.json";
 
 type DemoProps = {
@@ -302,7 +302,7 @@ function Demo({ startImg, middleImg, endImg }: DemoProps) {
           isStartEnd={true}
           groupGapY={0.05}
           imgSlideStart={imgStart}
-          imgSlideMiddle={imgMiddle}
+          imgSlideMiddle={null}
           imgSlideEnd={imgEnd}
         />
       )}

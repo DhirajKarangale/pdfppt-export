@@ -1592,34 +1592,48 @@ function PPTDownloader({
    */
   const normalizeChartSeries = (series: unknown[] = []): ChartSeries[] => {
     if (!Array.isArray(series)) return [];
-
-    return series.map((entry, idx) => {
-      const safeEntry: ChartSeries = entry && typeof entry === "object" ? { ...entry } : {};
-      const fallbackName = `Series ${idx + 1}`;
-      const rawName = safeEntry.name;
-      safeEntry.name = typeof rawName === "string" && rawName.trim().length
-        ? rawName
-        : String(rawName ?? fallbackName);
-
-      const labels = Array.isArray(safeEntry.labels) ? safeEntry.labels : [];
-      safeEntry.labels = labels.map((label, labelIdx) => {
-        if (typeof label === "string") return label;
-        if (label === null || label === undefined) return `Label ${labelIdx + 1}`;
-        try {
-          return String(label);
-        } catch (_) {
-          return `Label ${labelIdx + 1}`;
-        }
+  
+    const normalized: ChartSeries[] = [];
+  
+    series.forEach((entry, idx) => {
+      if (!entry || typeof entry !== "object") return;
+  
+      const raw = entry as ChartSeries;
+  
+      const name =
+        typeof raw.name === "string" && raw.name.trim()
+          ? raw.name
+          : `Series ${idx + 1}`;
+  
+      const rawLabels = Array.isArray(raw.labels) ? raw.labels : [];
+      const rawValues = Array.isArray(raw.values) ? raw.values : [];
+  
+      const len = Math.min(rawLabels.length, rawValues.length);
+      if (len === 0) return;
+  
+      const labels = rawLabels.slice(0, len).map((l, i) =>
+        typeof l === "string" && l.trim()
+          ? l
+          : `Label ${i + 1}`
+      );
+  
+      const values = rawValues.slice(0, len).map(v => {
+        const n = Number(v);
+        return Number.isFinite(n) ? n : 0;
       });
-
-      const values = Array.isArray(safeEntry.values) ? safeEntry.values : [];
-      safeEntry.values = values.map((value) => {
-        const num = Number(value);
-        return Number.isFinite(num) ? num : 0;
+  
+      // pptxgenjs: PIE will not render if all values are zero
+      const hasNonZero = values.some(v => v > 0);
+      const safeValues = hasNonZero ? values : values.map(() => 1);
+  
+      normalized.push({
+        name,
+        labels,
+        values: safeValues,
       });
-
-      return safeEntry;
     });
+  
+    return normalized;
   };
 
   /**
@@ -1692,11 +1706,16 @@ function PPTDownloader({
             }));
           }
           else {
+            if (!chartMeta || !chartMeta.labels || !chartMeta.values) return;
+
+            const values = chartMeta.values?.map(v => Number(v) || 0) ?? [];
+            const hasNonZero = values.some(v => v > 0);
+
             pptChartData = [
               {
                 name: "Chart",
-                labels: chartMeta.labels,
-                values: chartMeta.values,
+                labels: chartMeta.labels?.map(String) ?? [],
+                values: hasNonZero ? values : values.map(() => 1),
               },
             ];
           }
