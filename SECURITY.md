@@ -2,20 +2,67 @@
 
 ## Supported Versions
 
-Use this section to tell people about which versions of your project are
-currently being supported with security updates.
+This project is currently under active development.
 
-| Version | Supported          |
-| ------- | ------------------ |
-| 5.1.x   | :white_check_mark: |
-| 5.0.x   | :x:                |
-| 4.0.x   | :white_check_mark: |
-| < 4.0   | :x:                |
+Security updates are provided **only for the latest published version** of the library.
+
+| Package | Version | Supported |
+|--------|---------|-----------|
+| pdf-ppt-export-react | latest | ✅ |
+| Older versions | — | ❌ |
+
+Users are strongly encouraged to upgrade to the latest version to receive security fixes and improvements.
+
+---
 
 ## Reporting a Vulnerability
 
-Use this section to tell people how to report a vulnerability.
+If you discover a security vulnerability, please **do not open a public GitHub issue**.
 
-Tell them where to go, how often they can expect to get an update on a
-reported vulnerability, what to expect if the vulnerability is accepted or
-declined, etc.
+### How to Report
+- Open a **private security advisory** via GitHub  
+  **OR**
+- Email the maintainer directly (preferred for sensitive issues)
+
+📧 **Contact:**  
+`security@dhirajkarangale.dev`  
+*(If email delivery fails, open a private GitHub discussion instead.)*
+
+### What to Include
+Please provide as much detail as possible:
+- A clear description of the vulnerability
+- Steps to reproduce (if applicable)
+- Affected versions
+- Potential impact
+- Any suggested mitigation or fix
+
+### Response Timeline
+- **Initial response:** within 48–72 hours
+- **Assessment & validation:** as soon as possible
+- **Fix & disclosure:** coordinated responsibly once confirmed
+
+### Disclosure Policy
+- Valid security issues will be fixed and released promptly
+- Public disclosure will happen **after a fix is available**
+- If an issue is declined, an explanation will be provided
+
+---
+
+## Scope
+
+This security policy applies to:
+- The `pdf-ppt-export-react` library
+- Export logic (PDF / PPT generation)
+- DOM parsing and client-side processing
+
+Out of scope:
+- Vulnerabilities in third-party dependencies
+- Issues caused by incorrect usage or unsafe user-provided content
+- Browser-specific bugs outside project control
+
+---
+
+## Thanks
+
+Responsible disclosure helps keep the project safe for everyone.  
+Thank you for helping improve **pdfppt-export**.
