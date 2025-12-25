@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
   FileText,
@@ -13,10 +13,19 @@ import {
   ArrowRight,
   Heart,
   MessageSquare,
-  GitPullRequest
+  GitPullRequest,
+  Download, Package, GitBranch, Shield
 } from "lucide-react";
 
 function Home() {
+
+  const [npmStats, setNpmStats] = useState<{
+    downloads: number;
+    version: string;
+    license: string;
+  } | null>(null);
+
+
   const features = [
     {
       icon: FileText,
@@ -48,6 +57,50 @@ function Home() {
     "Batch export capabilities",
     "TypeScript definitions"
   ];
+
+  useEffect(() => {
+    const loadStats = async () => {
+      try {
+        const [dRes, pRes] = await Promise.all([
+          fetch("https://api.npmjs.org/downloads/point/last-month/pdf-ppt-export-react"),
+          fetch("https://registry.npmjs.org/pdf-ppt-export-react/latest"),
+        ]);
+
+        const d = await dRes.json();
+        const p = await pRes.json();
+
+        setNpmStats({
+          downloads: d.downloads,
+          version: p.version,
+          license: p.license,
+        });
+      } catch {
+        // fail silently
+      }
+    };
+
+    loadStats();
+  }, []);
+
+  function Stat({
+    icon: Icon,
+    label,
+    value,
+  }: {
+    icon: any;
+    label: string;
+    value: string;
+  }) {
+    return (
+      <div className="p-6 bg-slate-50 rounded-lg border border-slate-200">
+        <Icon className="w-7 h-7 text-blue-600 mx-auto mb-3" />
+        <div className="text-sm text-slate-500">{label}</div>
+        <div className="text-2xl font-bold text-slate-900 mt-1">
+          {value}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -113,6 +166,61 @@ function Home() {
                 <CheckCircle2 className="w-5 h-5 text-emerald-600" />
                 <span>Battle-Tested Deps</span>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Library Stats */}
+      <section className="py-16 bg-white border-b border-slate-200">
+        <div className="container mx-auto px-6">
+          <div className="max-w-5xl mx-auto text-center">
+            <h2 className="text-3xl font-bold text-slate-900 mb-3">
+              pdf-ppt-export-react
+            </h2>
+            <p className="text-slate-600 mb-10">
+              Open-source React library for exporting dashboards to PDF & PowerPoint
+            </p>
+
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+              <Stat
+                icon={Download}
+                label="Monthly Downloads"
+                value={
+                  npmStats
+                    ? npmStats.downloads.toLocaleString()
+                    : "—"
+                }
+              />
+              <Stat
+                icon={GitBranch}
+                label="Latest Version"
+                value={npmStats?.version ?? "—"}
+              />
+              <Stat
+                icon={Shield}
+                label="License"
+                value={npmStats?.license ?? "—"}
+              />
+              <Stat
+                icon={Package}
+                label="Package"
+                value="React"
+              />
+            </div>
+
+            <div className="mt-10">
+              <a
+                href="https://www.npmjs.com/package/pdf-ppt-export-react"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-6 py-3
+                     bg-slate-900 text-white font-semibold rounded-lg
+                     hover:bg-slate-800 transition"
+              >
+                View on npm
+                <ArrowRight className="w-4 h-4" />
+              </a>
             </div>
           </div>
         </div>

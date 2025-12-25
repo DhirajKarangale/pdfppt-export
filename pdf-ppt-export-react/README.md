@@ -61,6 +61,7 @@ If your UI renders correctly in the browser, this library can export it. No comp
 
 ```bash
 npm install jspdf html-to-image pptxgenjs culori
+npm install pdf-ppt-export-react
 ```
 
 ### Dependencies Explained

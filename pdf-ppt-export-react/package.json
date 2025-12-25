@@ -1,6 +1,6 @@
 {
   "name": "pdf-ppt-export-react",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "pdfppt-export is a lightweight React utility that lets you export any dashboard or UI section to a multi-page PDF or a fully structured PowerPoint (PPTX) using just a React ref. It supports real charts, panel-based slide layouts, branding backgrounds, and smart pagination—without requiring you to rewrite your components or chart logic. Ideal for analytics dashboards, reports, and internal tools.",
   "license": "MIT",
   "author": "DK",

@@ -202,6 +202,11 @@ function Documentation() {
   const [activeSection, setActiveSection] = useState("introduction");
   const [isSidebarOpen, _] = useState(true);
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const [pkgMeta, setPkgMeta] = useState<{
+    version: string;
+    downloads: number;
+    license: string;
+  } | null>(null);
 
   const sections = [
     { id: "introduction", label: "Introduction", icon: BookOpen },
@@ -244,6 +249,28 @@ function Documentation() {
 
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    const loadMeta = async () => {
+      try {
+        const [pkgRes, dlRes] = await Promise.all([
+          fetch("https://registry.npmjs.org/pdf-ppt-export-react/latest"),
+          fetch("https://api.npmjs.org/downloads/point/last-month/pdf-ppt-export-react"),
+        ]);
+
+        const pkg = await pkgRes.json();
+        const dl = await dlRes.json();
+
+        setPkgMeta({
+          version: pkg.version,
+          license: pkg.license,
+          downloads: dl.downloads,
+        });
+      } catch { }
+    };
+
+    loadMeta();
   }, []);
 
   const scrollToSection = (id: string) => {
@@ -323,6 +350,43 @@ function Documentation() {
                 <p className="text-lg text-slate-700 leading-relaxed">
                   <strong>pdf-ppt-export-react</strong> is a React-based, DOM-driven export utility that converts your rendered dashboards into professional multi-page PDFs and editable PowerPoint presentations.
                 </p>
+
+                <div
+                  className="mt-4 inline-flex flex-wrap items-center gap-4
+             rounded-md border border-slate-200
+             bg-slate-50 px-3 py-2
+             text-sm text-slate-700"
+                >
+                  <a
+                    href="https://www.npmjs.com/package/pdf-ppt-export-react"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-medium text-slate-900 hover:text-blue-700 transition"
+                  >
+                    pdf-ppt-export-react
+                  </a>
+
+                  <span className="text-slate-400">•</span>
+
+                  <span>
+                    version{" "}
+                    <span className="font-mono text-slate-900">
+                      {pkgMeta?.version ?? "—"}
+                    </span>
+                  </span>
+
+                  <span className="text-slate-400">•</span>
+
+                  <span>
+                    {pkgMeta
+                      ? `${pkgMeta.downloads.toLocaleString()} downloads / month`
+                      : "— downloads / month"}
+                  </span>
+
+                  <span className="text-slate-400">•</span>
+
+                  <span>{pkgMeta?.license ?? "—"} license</span>
+                </div>
 
                 <Callout type="info">
                   <strong>Structure-First Approach:</strong> Unlike screenshot-based tools, this library analyzes your DOM structure, extracts panels, text, shapes, and charts, then rebuilds them as real PowerPoint elements with editable text and native charts.
