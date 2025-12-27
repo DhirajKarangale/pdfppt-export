@@ -1,12 +1,13 @@
 import { memo, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Code, Menu, X, Github, FileText, Monitor } from "lucide-react";
+import { Code, Menu, X, Github, FileText, Monitor, Home } from "lucide-react";
 
 function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
 
   const navItems = [
+    { label: "Home", path: "/", icon: Home },
     { label: "Demo", path: "/demo", icon: Monitor },
     { label: "Documentation", path: "/documentation", icon: FileText },
   ];
