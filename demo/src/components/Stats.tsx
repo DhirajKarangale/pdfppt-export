@@ -16,7 +16,7 @@ export default function Stats() {
       try {
         const [downloadsRes, pkgRes] = await Promise.all([
           fetch(
-            "https://api.npmjs.org/downloads/point/last-month/pdf-ppt-export-react"
+            "https://api.npmjs.org/downloads/point/2000-01-01:2030-01-01/pdf-ppt-export-react"
           ),
           fetch("https://registry.npmjs.org/pdf-ppt-export-react/latest"),
         ]);

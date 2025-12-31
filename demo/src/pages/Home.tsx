@@ -62,7 +62,7 @@ function Home() {
     const loadStats = async () => {
       try {
         const [dRes, pRes] = await Promise.all([
-          fetch("https://api.npmjs.org/downloads/point/last-month/pdf-ppt-export-react"),
+          fetch("https://api.npmjs.org/downloads/point/2000-01-01:2030-01-01/pdf-ppt-export-react"),
           fetch("https://registry.npmjs.org/pdf-ppt-export-react/latest"),
         ]);
 
@@ -185,7 +185,7 @@ function Home() {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               <Stat
                 icon={Download}
-                label="Monthly Downloads"
+                label="Total Downloads"
                 value={
                   npmStats
                     ? npmStats.downloads.toLocaleString()

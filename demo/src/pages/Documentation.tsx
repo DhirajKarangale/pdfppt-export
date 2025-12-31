@@ -256,7 +256,7 @@ function Documentation() {
       try {
         const [pkgRes, dlRes] = await Promise.all([
           fetch("https://registry.npmjs.org/pdf-ppt-export-react/latest"),
-          fetch("https://api.npmjs.org/downloads/point/last-month/pdf-ppt-export-react"),
+          fetch("https://api.npmjs.org/downloads/point/2000-01-01:2030-01-01/pdf-ppt-export-react"),
         ]);
 
         const pkg = await pkgRes.json();
@@ -379,8 +379,8 @@ function Documentation() {
 
                   <span>
                     {pkgMeta
-                      ? `${pkgMeta.downloads.toLocaleString()} downloads / month`
-                      : "— downloads / month"}
+                      ? `${pkgMeta.downloads.toLocaleString()} downloads`
+                      : "— downloads"}
                   </span>
 
                   <span className="text-slate-400">•</span>
